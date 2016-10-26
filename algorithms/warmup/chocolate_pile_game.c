@@ -9,6 +9,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+void display_array(int * s, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+	  printf("%d ", s[i]);
+	}
+	printf("\n");
+
+	return;
+}
+
 enum last_valid_move {
 	no_one = 0,
 	last_move_laurel = 1,
@@ -51,38 +62,72 @@ int main()
 			{
 				prev_laurel = laurel;
 				prev_hardy = hardy;
+
+#ifdef DEBUG
+				printf("Init :\t"); display_array(s, s_n);
+#endif
+
 				for (k = 0; (k+1) < s_n; k++)
 				{
-					if (s[k+1] > s[k])
+					if (s[k] > 1) 
 					{
-						s[k+1] = s[k+1] - s[k];
+						s[k] = 1;
+						laurel++;
+						last_move = last_move_laurel;
+						break;
+					}
+					else if (s[k+1] > s[k])
+					{
+						s[k+1] = /*s[k+1] - */s[k];
 						laurel++;
 						last_move = last_move_laurel;
 						break;
 					}
 				}
 
+#ifdef DEBUG
+				printf("After Laurel :\t"); display_array(s, s_n);
+#endif
+
 				for (l = 0; (l+1) < s_n; l++)
 				{
-					if (s[l+1] > s[l])
+					if (s[l] > 1)
 					{
-						s[l+1] = s[l+1] - s[l];
+						s[l] = 1;
+						hardy++;
+						last_move = last_move_hardy;
+						break;
+					}
+					else if (s[l+1] > s[l])
+					{
+						s[l+1] = /*s[l+1] - */s[l];
 						hardy++;
 						last_move = last_move_hardy;
 						break;
 					}
 				}
+
+#ifdef DEBUG
+				printf("After Hardy :\t"); display_array(s, s_n);
+#endif
+
 			/* no one made a move last time, time to break the while loop */
 			}while((laurel != prev_laurel) && (hardy != prev_hardy));
 
 			if (last_move == last_move_laurel)
 			{
 				/* last move by laurel, so laurel wins */
+#ifdef DEBUG
+				printf("\nLaurel Won\n");
+#endif
 				laurel_c++;
 			}
 			else if (last_move == last_move_hardy)
 			{
 				/* last move by hardy, so hardy wins */
+#ifdef DEBUG
+				printf("\nHardy Won\n");
+#endif
 				hardy_c++;
 			}
 		}
