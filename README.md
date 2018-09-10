@@ -1,4 +1,4 @@
-# Project Title
+# Verified Boot through Flattened Image Tree using BuildRoot
 
 One Paragraph of project description goes here
 
